@@ -14,8 +14,8 @@ def detect(img):
 
 
 def getInnerPoint(points, centerX, centerY):
-    isRight = points[0][0] > centerX
-    isUp = points[0][1] > centerY
+    isRight = points[0][0] < centerX
+    isUp = points[0][1] < centerY
 
     tempX = 10000 if isRight else 0
     tempY = 10000 if isUp else 0
@@ -35,7 +35,7 @@ def getInnerPoint(points, centerX, centerY):
 def getInnerPointsClockwice(corners, centerX, centerY):
     inners = [getInnerPoint(corner[0], centerX, centerY) for corner in corners]
     firstIndex = 0
-    #print(len(inners))
+    print(len(inners))
     if len(inners) == 4:
         for i in range(1, 4):
             if inners[i][0] + 100 < inners[firstIndex][0] or inners[i][1] + 100 < \
@@ -68,7 +68,7 @@ def crop(image):
 
 
 def resize(image):
-    _image = cv2.resize(image, (int(750), int(750)),
+    _image = cv2.resize(image, (int(1420), int(200)),
                         interpolation=cv2.INTER_CUBIC)
     return _image
 

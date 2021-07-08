@@ -4,7 +4,7 @@ import HandTrackingModule as htm
 from resize import formattingImage, crop, transform
 from transform import four_point_transform
 
-cap = cv2.VideoCapture('https://192.168.137.229:8080/video')
+cap = cv2.VideoCapture('https://192.168.137.12:8080/video')
 
 
 overlayList = []
@@ -27,12 +27,12 @@ while True:
         if cropCheck:
             point = crop(img)
             warped = four_point_transform(img, point)
-            img = cv2.resize(warped, (int(750), int(750)),
-                            interpolation=cv2.INTER_CUBIC)
+            img = cv2.resize(warped, (int(1820), int(600)),
+                             interpolation=cv2.INTER_CUBIC)
             cropCheck = False
 
         warped = four_point_transform(img, point)
-        img = cv2.resize(warped, (int(750), int(750)),
+        img = cv2.resize(warped, (int(1820), int(600)),
                         interpolation=cv2.INTER_CUBIC)
 
         img = detector.findHands(img)
@@ -44,9 +44,9 @@ while True:
         if len(lmList) != 0:
             id = 9
             img = cv2.circle(img, (lmList[9][1], lmList[9][2]), radius=5, color=(100, 40, 40), thickness=-1)
-            print(round(lmList[9][1] * 1.33333333), round(lmList[9][2] * 1.33333333))
+            print( lmList[9][1] // 2, 300 - lmList[9][2] //2)
 
-            cv2.putText(img, f'x: {int(round(lmList[9][1] * 1.33333333))}mm, y: {round(lmList[9][2] * 1.33333333)}mm', (10, 130), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
+            cv2.putText(img, f'x: { int(lmList[9][1] // 2)}mm, y: {300 - lmList[9][2] //2}mm', (10, 130), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
 
 
             fingers = []

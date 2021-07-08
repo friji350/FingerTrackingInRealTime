@@ -8,7 +8,7 @@ pTime = 0
 cTime = 0
 #img = cv2.imread('F:/finalNTI2/image/test/IMG_20210701_134550', 0)
 #cv2.VideoCapture('rtsp://192.168.1.64/1')  cap = cv2.VideoCapture('https://100.91.16.252:8080/video')
-cap = cv2.VideoCapture('https://192.168.137.202:8080/video')
+cap = cv2.VideoCapture('https://192.168.137.33:8080/video')
 detector = htm.handDetector()
 while True:
     success, img = cap.read()
