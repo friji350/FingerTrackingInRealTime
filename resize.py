@@ -61,7 +61,7 @@ def crop(image):
     clockwice = getInnerPointsClockwice(corners, 300, 300)
 
     warped = four_point_transform(image, transform(clockwice))
-    print(transform(clockwice)[0][0])
+    #print(transform(clockwice)[0][0])
 
     return transform(clockwice)
     #return warped
