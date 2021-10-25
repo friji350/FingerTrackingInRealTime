@@ -91,14 +91,14 @@ class Paint(Frame):
             if a_max < dis:
                 a_max = dis
 
-            y_robot = 10.1
+            y_robot = 2.1
 
             print(x)
 
             man.append([x_robot, y_robot, angle])
 
             if angle < 180:
-                krest_trest.go_to([x_robot, y_robot], angle)
+                krest_trest.go_to([x_robot, y_robot], angle,False)
 
         print(a_max)
 

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import math
 import time
 import telnetlib
+import random
 # Robot Link Length Parameter
 link = [20, 19]
 # Robot Initial Joint Values (degree)
@@ -140,12 +141,24 @@ def onclick(event):
         print("\nIK solved\n")
         print("Iteration :", iteration)
         print("Angle :", angle)
-        telnet = telnetlib.Telnet('192.168.43.54')
-        s = f'A{90} B{round(angle[0])} C{180 - round(angle[1])} D0\n'
-        print("send")
+        telnet = telnetlib.Telnet('192.168.1.159')
 
-        telnet.write(s.encode())
-        time.sleep(0.05)
+        if round(angle[0]) < 160 and round(angle[1]) < 160:
+            d_angle = (90-(360 - round(angle[0]) - round(angle[1]) - 90))
+            if d_angle < 0:
+                d_angle = 0
+            s = f'A{0} B{round(angle[0])} C{180 - round(angle[1])} D{d_angle} \n'
+            s_new = f'A{0} B{round(angle[0]) + random.randint(1, 3)} C{180-round(angle[1]) + random.randint(1, 3)} D90\n'
+
+            print(s_new)
+
+            telnet.write(s.encode())
+            time.sleep(0.05)
+            telnet.write(s_new.encode())
+            time.sleep(0.05)
+
+        else:
+            print('IK ERROR')
         print("Target :", target)
         print("End Effector :", P[-1][:3, 3])
         print("Error :", err)
@@ -157,7 +170,7 @@ def onclick(event):
         print("Error :", err)
     fig.canvas.draw()
 
-def go_to(targets,an):
+def go_to(targets,an,rotate):
     global target, link, angle, ax
     target[0] = targets[0]
     target[1] = targets[1]
@@ -181,12 +194,21 @@ def go_to(targets,an):
         print("\nIK solved\n")
         print("Iteration :", iteration)
         print("Angle :", angle)
-        telnet = telnetlib.Telnet('192.168.43.54')
-        s = f'A{an} B{round(angle[0])} C{180 - round(angle[1])} D0\n'
-        print("send")
+        telnet = telnetlib.Telnet('192.168.1.159')
+        if round(angle[0]) < 300 and round(angle[1]) < 300:
+            s = f'A{180-an} B{round(angle[0])} C{180 - round(angle[1])} \n'
+            s_new = f'A{180-an} B{round(angle[0]) + random.randint(1, 3)} C{180-round(angle[1]) + random.randint(1, 3)} D90\n'
 
-        telnet.write(s.encode())
-        time.sleep(0.05)
+            print(s_new)
+
+            telnet.write(s.encode())
+            time.sleep(0.05)
+            telnet.write(s_new.encode())
+            time.sleep(0.05)
+            return s_new
+
+        else:
+            print('IK ERROR')
         print("Target :", target)
         print("End Effector :", P[-1][:3, 3])
         print("Error :", err)
