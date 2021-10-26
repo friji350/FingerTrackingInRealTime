@@ -80,9 +80,6 @@ def IK(target, angle, link, max_iter=10000, err_min=0.1):
             if err_end_to_target < err_min:
                 solved = True
             else:
-                # Calculate distance between i-joint position to end effector position
-                # P[i] is position of current joint
-                # P[-1] is position of end effector
                 cur_to_end = P[-1][:3, 3] - P[i][:3, 3]
                 cur_to_end_mag = math.sqrt(cur_to_end[0] ** 2 + cur_to_end[1] ** 2)
                 cur_to_target = target - P[i][:3, 3]
@@ -197,13 +194,11 @@ def go_to(targets,an,rotate):
         telnet = telnetlib.Telnet('192.168.1.159')
         if round(angle[0]) < 300 and round(angle[1]) < 300:
             s = f'A{180-an} B{round(angle[0])} C{180 - round(angle[1])} \n'
-            s_new = f'A{180-an} B{round(angle[0]) + random.randint(1, 3)} C{180-round(angle[1]) + random.randint(1, 3)} D90\n'
+            s_new = f'S150 A{180-an} B{round(angle[0]) + random.randint(1, 3)} C{180-round(angle[1]) + random.randint(1, 3)} D90\n'
 
             print(s_new)
 
             telnet.write(s.encode())
-            time.sleep(0.05)
-            telnet.write(s_new.encode())
             time.sleep(0.05)
             return s_new
 
@@ -240,9 +235,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
