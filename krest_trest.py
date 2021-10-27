@@ -54,9 +54,6 @@ def translate(dx, dy, dz):
     return t
 
 
-# Forward Kinematics
-# Input initial angles and length of links
-# Output positions each points
 def FK(angle, link):
     n_links = len(link)
     P = []
@@ -188,31 +185,31 @@ def go_to(targets,an,rotate):
         # draw_axis(ax, scale=5, A=P[i+1], draw_2d=True)
 
     if solved:
-        print("\nIK solved\n")
-        print("Iteration :", iteration)
-        print("Angle :", angle)
+        #print("\nIK solved\n")
+        #print("Iteration :", iteration)
+        #print("Angle :", angle)
         telnet = telnetlib.Telnet('192.168.1.159')
         if round(angle[0]) < 300 and round(angle[1]) < 300:
-            s = f'A{180-an} B{round(angle[0])} C{180 - round(angle[1])} \n'
+            s = f'S150 A{an} B{round(angle[0])} C{round(angle[1])}  D90\n'
             s_new = f'S150 A{180-an} B{round(angle[0]) + random.randint(1, 3)} C{180-round(angle[1]) + random.randint(1, 3)} D90\n'
 
-            print(s_new)
+            #print(s)
 
-            telnet.write(s.encode())
+            telnet.write(s_new.encode())
             time.sleep(0.05)
-            return s_new
+            return s
 
         else:
             print('IK ERROR')
-        print("Target :", target)
-        print("End Effector :", P[-1][:3, 3])
-        print("Error :", err)
+        #print("Target :", target)
+        #print("End Effector :", P[-1][:3, 3])
+        #print("Error :", err)
     else:
         print("\nIK error\n")
-        print("Angle :", angle)
-        print("Target :", target)
-        print("End Effector :", P[-1][:3, 3])
-        print("Error :", err)
+        #print("Angle :", angle)
+        #print("Target :", target)
+        #print("End Effector :", P[-1][:3, 3])
+        #print("Error :", err)
     fig.canvas.draw()
 
 
